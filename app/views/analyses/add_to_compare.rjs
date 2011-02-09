@@ -1,0 +1,10 @@
+(5 - session[:selected_analysis_id].length).times do |k|
+  if k < params[:index].to_i
+    page.replace "select_analysis_#{k}", :partial => 'comparision_table_select_analysis', :locals => {:analyses => @analyses, :index => k}
+  elsif k == params[:index].to_i
+    page.replace "select_analysis_#{params[:index]}", :partial=>'comparision_table_analysis', :locals=>{:analysis=>@analysis}
+  else
+    page.replace "select_analysis_#{k}", :partial => 'comparision_table_select_analysis', :locals => {:analyses => @analyses, :index => k-1}
+  end
+end
+page.call "resetExistingBase"

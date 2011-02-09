@@ -1,0 +1,101 @@
+<% form_for analysis, :url => form_action, :html => { :multipart => true } do |form| %>
+
+  <div class="inner form">
+    <%= error_messages_for :analysis, :analysis_data, :header_message => "Errors", :message => nil %>
+
+    <h2>Basics</h2>
+    <div class="form_part">
+      <div class="text_field">
+        <label class="field_title" for="">Analysis name</label>
+        <div class="textbox_border"><%= form.text_field :name, :class => 'textbox' %></div>
+      </div>
+
+      <div class="text_field">
+        <label class="field_title" for="">Description</label>
+        <div class="textbox_border"><%= form.text_area :description, :class => 'textbox_description' %></div>
+      </div>
+      <div class="text_field">
+        <label class="field_title" for="">Image</label>
+        <% if analysis.image? %>
+          <%= image_tag analysis.image.url(:thumb)%><br/>
+        <% end %>
+        <div class="textbox_border <%= "fieldWithErrors" if analysis.errors.invalid?(:image_content_type) %> <%= "bimg" if analysis.image? %>">
+          <%= form.file_field :image, :class=>  'browse', :size => '30' %>
+        </div>
+        
+      </div>
+
+    </div>
+
+    <h2>Analysis Details</h2>
+    <div class="form_part">
+      <div class="text_field">
+        <label class="field_title" for="">Date</label>
+        <%= form.date_select :date %>
+      </div>
+
+      <div class="text_field">
+        <label class="field_title" for="">Part Name</label>
+        <div class="textbox_border"><%= form.text_field :part_name, :class => 'textbox' %></div>
+      </div>
+      <div class="text_field">
+        <label class="field_title" for="">Machine</label>
+        <div class="textbox_border"><%= form.text_field :machine_name, :class => 'textbox' %></div>
+      </div>
+    </div>
+    
+    <% fields_for analysis_data  do |f|%>
+      <h2>Data Collection</h2>
+      <div class="form_part">
+
+        <div class="text_field">
+          <label class="field_title" for="">Location</label>
+          <%= f.collection_select(:location_id, country_energy_costs, :id, :name,options = {}, html_options = {:onchange => "populateCountryWiseData(this.value, country_energy_costs)"}) %>
+        </div>
+
+        <div class="text_field">
+          <label class="field_title" for="">Energy Cost</label>
+          <div class="textbox_border"><%= text_field_tag :analysis_data_energy_cost,nil, :disabled => true, :class => 'textbox unit_value' %><label class="value" for=""><%= USD_UNIT + '/' + ENERGY_UNIT  %></label></div>
+        </div>
+
+        <div class="text_field">
+          <label class="field_title" for="">Average Emission Factor</label>
+          <div class="textbox_border"><%= text_field_tag :analysis_data_avg_emission_factor,nil, :disabled => true, :class => 'textbox' %><label class="value" for=""><%= CARBON_FOOTPRINT_UNIT + '/' + ENERGY_UNIT  %></label></div>
+        </div>
+
+        <div class="text_field">
+          <label class="field_title" for="">Cycle Time</label>
+          <div class="textbox_border"><%= f.text_field :cycle_time, :class => 'textbox' %><label class="value" for=""><%= SECONDS_FULL_UNIT %></label></div>
+        </div>
+
+        <div class="text_field">
+          <label class="field_title" for="">Utilization</label>
+          <div class="textbox_border"><%= f.text_field :utilization, :class => 'textbox' %><label class="value" for=""><%= PERCENT_UNIT %></label></div>
+        </div>
+
+        <div class="text_field">
+          <label class="field_title" for="">Part Produced</label>
+          <div class="textbox_border"><%= f.text_field :parts_produced, :class => 'textbox' %><label class="value" for=""><%= COUNT_UNIT %></label></div>
+        </div>
+
+        <div class="text_field">
+          <label class="field_title" for="">Annual Operation Hours</label>
+          <div class="textbox_border"><%= f.text_field :annual_operating_hours, :class => 'textbox' %><label class="value" for=""><%= HOURS_UNIT %></label></div>
+        </div>
+
+        <div class="text_field">
+          <label class="field_title" for="">Raw Data from Machine</label>
+          <div class="textbox_border <%= "fieldWithErrors" if invalid_csv %>">
+            <%= file_field_tag :csv_file, :class=>  'browse', :size => '30' %>
+          </div>
+        </div>
+        
+      </div>
+    <% end %>
+      
+    <div class="button">
+      <%= form.submit '', :class => 'submit_button' %>&nbsp;&nbsp;<span class="cancel"> <small>or <%= link_to 'Cancel', cancel_action %></small></span>
+    </div>
+
+  </div><!--SECTION DIV ENDS-->
+<% end %>

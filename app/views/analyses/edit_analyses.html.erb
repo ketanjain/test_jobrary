@@ -1,0 +1,20 @@
+<div class="container">
+
+  <%= render :partial => '/layouts/navigation_bar' %>
+
+  <div class="outer">
+
+    <%= render :partial => '/layouts/header' %>
+
+    <%= render :partial => 'overview_button' %>
+
+    <div class="main">
+      <% @analyses.each do |analysis| %>
+        <%= render :partial => 'overview_item', :locals => {:analysis => analysis, :edit => true} %>
+      <% end %>
+    </div>
+
+    <%= render :partial => '/layouts/footer' %>
+
+  </div><!--OUTER DIV ENDS-->
+</div><!--CONTAINER DIV ENDS-->

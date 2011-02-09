@@ -1,0 +1,6 @@
+page.call 'removeFromComparision', params[:id]
+(3 - session[:selected_analysis_id].length).times do |k|
+ page.replace "select_analysis_#{k}", :partial => 'comparision_table_select_analysis', :locals => {:analyses => @analyses, :index => k}
+end
+
+page.replace "analysis_#{params[:id]}", :partial => 'comparision_table_select_analysis', :locals => {:analyses => @analyses, :index => (3 - session[:selected_analysis_id].length )}

@@ -1,0 +1,42 @@
+<div class="login">
+  <div class="outer">
+
+    <%= render :partial => '/layouts/header' %>
+
+    <div class="inner form">
+      <h2>Login</h2>
+
+      <% form_tag(:controller => 'login', :action => 'create') do %>
+
+        <% if @error_msg %>
+          <div class="errorExplanation" id="errorExplanation">
+            <ul>
+              <li>
+                <%= @error_msg %>
+              </li>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="content_login">
+          <div class="text_field">
+            <label class="field_title" for="">Username</label>
+            <%= text_field_tag 'login_id', nil, :class => 'textbox'%>
+          </div>
+
+          <div class="text_field">
+            <label class="field_title" for="">Password</label>
+            <%= password_field_tag 'login_password', nil, :class => 'textbox'%>
+          </div>
+
+          <div class="button">
+            <%= submit_tag '', :class => 'login_button' %>
+          </div>
+        </div>
+      <% end %>
+    </div><!--INNER DIV ENDS-->
+
+    <%= render :partial => '/layouts/footer' %>
+
+  </div><!--OUTER DIV ENDS-->
+</div><!--LOGIN DIV ENDS-->

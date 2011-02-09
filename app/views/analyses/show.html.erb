@@ -1,0 +1,156 @@
+<%= javascript_include_tag 'protovis-r3.2', 'charts' %>
+<script type="text/javascript">
+  function switchTab(tab)
+  {
+    $('annual_tab').removeClassName('active')
+    $('part_tab').removeClassName('active')
+    if(tab == 'annual')
+    {
+      $('annual_tab').addClassName('active')
+      $('part_content').hide()
+      $('annual_content').show()
+    }
+    else
+    {
+      $('part_tab').addClassName('active')
+      $('annual_content').hide()
+      $('part_content').show()
+    }
+  }
+</script>
+
+<div class="container">
+
+  <%= render :partial => '/layouts/navigation_bar' %>
+  
+  <div class="outer">
+
+    <%= render :partial => '/layouts/header' %>
+
+    <%= render :partial => 'overview_button' %>
+
+    <div class="main group">
+      <div class="inner lhs ainfo">
+        <p class="aimg">
+          <%= image_tag @analysis.image.url(:main) if @analysis.image? %>
+        </p>
+        <h1><%= @analysis.name %></h1>
+
+        <h3 class="sg">
+          <%= @analysis.part_name %><br/>
+          <%= @analysis.date %>
+        </h3>
+
+        <ul class="operation">
+          <li><h3><span class="title">Cycle Time</span><br/><%= @analysis.analysis_data.cycle_time_display %> <%= SECONDS_FULL_UNIT %></h3></li>
+          <li><h3><span class="title">Utilization</span><br/><%= @analysis.analysis_data.utilization_display %><%= PERCENT_UNIT %></h3></li>
+        </ul>
+
+        <h3 class="sg"><%= @analysis.analysis_data.location %></h3>
+        <p class="sg ainfo_des"><%= @analysis.description %></p>
+      </div>
+
+      <div class="rhs">
+        <div class="inner savings group">
+          <!--
+            <ul class="tabs group">
+              <li><%= link_to_function('Part Based',"switchTab('part')",:id => "part_tab", :class=>'active')%></li>
+              <li><%= link_to_function('Annual',"switchTab('annual')",:id => "annual_tab")%></li>
+            </ul>
+          -->
+
+          <div id ="part_content" class="pbased">
+            <h3 class="blue">Part Based</h3>
+            <ul>
+              <li><img class="center icon" src="/images/icon_tree.png" alt="icon" /></li>
+              <li class="title">Carbon Footprint Per Part<h3><%= @analysis.analysis_data.carbon_footprint_per_part_display %> <%= CARBON_FOOTPRINT_UNIT_PER_PART %></h3></li>
+            </ul>
+
+            <ul>
+              <li><img class="center icon" src="/images/icon_power.png" alt="icon" /></li>
+              <li class="title">Energy Usage Per Part<h3><%= @analysis.analysis_data.specific_energy_consumed_per_part_display %> <%= ENERGY_UNIT %></h3></li>
+            </ul>
+
+            <ul>
+              <li><img class="center icon" src="/images/icon_dollar.png" alt="icon" /></li>
+              <li class="title">Energy Cost Per Part<h3><%= COST_UNIT %><%= @analysis.analysis_data.energy_cost_per_part_display %></h3></li>
+            </ul>
+          </div>
+
+          <div id ="annual_content" class="abased">
+            <h3 class="blue">Annual</h3>
+            <ul>
+              <li><img class="center icon" src="/images/icon_tree.png" alt="icon" /></li>
+              <li class="title">Carbon Footprint Per Year<h3><%= @analysis.analysis_data.annual_footprint_for_year_display %> <%= CARBON_FOOTPRINT_UNIT_PER_YEAR %></h3></li>
+            </ul>
+
+            <ul>
+              <li><img class="center icon" src="/images/icon_power.png" alt="icon" /></li>
+              <li class="title">Energy Usage Per Year<h3><%= @analysis.analysis_data.annual_energy_usage_display %> <%= ENERGY_UNIT %></h3></li>
+            </ul>
+
+            <ul>
+              <li><img class="center icon" src="/images/icon_dollar.png" alt="icon" /></li>
+              <li class="title">Energy Cost Per Year<h3><%= COST_UNIT %><%= @analysis.analysis_data.annual_energy_cost_display %></h3></li>
+            </ul>
+          </div>
+        </div>
+
+        <ul class="inner graph">
+          <li><h3 class="blue">saving by <br/>CT reduction</h3></li>
+          <li>
+
+            <div id ="ct_reduction_chart">
+              <script type="text/javascript">
+                var ct_data = <%= @analysis.analysis_data.ct_reduction_chart_values %>;
+                renderCtReductionChart(ct_data)
+              </script>
+            </div>
+          </li>
+        </ul>
+
+        <ul class="inner graph">
+          <li><h3 class="blue">Saving by <br/>utilization</h3></li>
+          <li>
+            <div id ="utilization_improvement_chart">
+              <script type="text/javascript">
+                var uti_data = <%= @analysis.analysis_data.utilization_improvement_chart_values %>;
+                renderUtiImpChart(uti_data)
+              </script>
+            </div>
+          </li>
+        </ul>
+
+
+        <ul class="inner graph">
+          <li><h3 class="blue">Energy Usage</h3></li>
+          <li>
+            <div id ="annual_energy_usage_chart">
+              <script type="text/javascript">
+                var usage_data = <%= @analysis.analysis_data.annual_energy_usage_chart_values %>;
+                renderEnergyUsageChart(usage_data);
+              </script>
+            </div>
+          </li>
+        </ul>
+      </div>
+      
+      <ul class="inner eng">
+        <li><h3 class="blue">Machining Energy Profile</h3></li>
+        <li>
+          <div id="machine_energy_profile_chart">
+            <script type="text/javascript">
+              var data = <%= @analysis.analysis_data.csv_data %>,
+              duration = <%= @analysis.analysis_data.test_duration %>;
+              renderMachineEnergyChart(data, duration);
+            </script>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+
+    <%= render :partial => '/layouts/footer' %>
+
+  </div><!--OUTER DIV ENDS-->
+</div><!--CONTAINER DIV ENDS-->

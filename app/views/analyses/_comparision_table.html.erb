@@ -1,0 +1,8 @@
+<div id ="comparision_table" class="inner ctable">
+  <% selected_analysis.each do |analysis| %>
+    <%= render :partial => 'comparision_table_analysis', :locals => {:analysis => analysis} %>
+  <% end %>
+  <% (4 - selected_analysis.length).times do |index| %>
+    <%= render :partial => 'comparision_table_select_analysis', :locals => {:analyses => analyses, :index => index} %>
+  <% end %>
+</div>

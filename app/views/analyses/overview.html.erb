@@ -1,0 +1,74 @@
+<script type="text/javascript">
+  var ids_to_compare = []
+  
+  function addIdForCompare(id)
+  {
+    var index = ids_to_compare.indexOf(id)
+
+    if(index == -1)
+    {
+      if( ids_to_compare.length < 4 )
+      {
+        ids_to_compare.push(id)
+        $('compare_'+id).removeClassName('comp');
+        $('compare_'+id).addClassName('compActive');
+        $('compare_'+id).select("img").first().src = "/images/icon_compareActive.png"
+      }
+      else
+      {
+        $('max_analysis').highlight()
+      }
+    }
+    else
+    {
+      ids_to_compare.splice(index,1)
+      $('compare_'+id).removeClassName('compActive');
+      $('compare_'+id).addClassName('comp');
+      $('compare_'+id).select("img").first().src = "/images/icon_compare.png"
+    }
+
+    $('analysis_compare_ids').value = ids_to_compare.sort().join(',')
+    
+    if(ids_to_compare.length > 0)
+    {
+      $('compare_button').removeClassName('compare_button_dis')
+      $('compare_button').addClassName('compare_button')
+      $('compare_button').removeAttribute('disabled')
+    }
+    else
+    {
+      $('compare_button').removeClassName('compare_button')
+      $('compare_button').addClassName('compare_button_dis')
+      $('compare_button').disabled = true
+    }
+  }
+</script>
+<div class="container">
+
+  <%= render :partial => '/layouts/navigation_bar' %>
+
+  <div class="outer">
+
+    <%= render :partial => '/layouts/header' %>
+
+    <div class="group">
+      <% form_for :analysis_compare, :url => compare_analysis_path do |form| %>
+        <p class="top_action">
+          <span id="max_analysis">You can select upto 4 Analysis to compare</span> &nbsp; &nbsp;
+
+          <%= form.hidden_field(:ids) %>
+          <%= submit_tag '', :id => 'compare_button', :class => 'compare_button_dis', :disabled => true %>
+        </p>
+      <% end %>
+    </div>
+
+    <div class="main">
+      <% @analyses.each do |analysis| %>
+        <%= render :partial => 'overview_item', :locals => {:analysis => analysis, :edit => false} %>
+      <% end %>
+    </div>
+
+    <%= render :partial => '/layouts/footer' %>
+
+  </div><!--OUTER DIV ENDS-->
+</div><!--CONTAINER DIV ENDS-->

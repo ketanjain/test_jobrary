@@ -1,0 +1,35 @@
+<% analysis_data = analysis.analysis_data %>
+<div id ="analysis_<%= analysis.id  %>" class="atable">
+  <ul class="basic">
+    <li><h3><%= analysis.name %></h3></li>
+    <li><%= analysis.part_name %></li>
+    <li><%= analysis.date %></li>
+    <li class="atable_des"><%= analysis.description %></li>
+    <li class="action"><%= link_to_remote 'Remove from comparison',:url => { :controller => 'analyses', :action => "remove_from_compare", :id => analysis.id }  %><br/><%= link_to 'View detail', view_analysis_path(analysis) %><br/><br/>
+      <%= button_to_function '',"setAsBase(#{analysis.id},false)", :class  => "setbase_button"  %></li>
+  </ul>
+  <div id="comparision_data_<%= analysis.id  %>">
+    <p><%= analysis_data.utilization_display %></p>
+    <p><%= analysis.analysis_data.cycle_time_display %></p>
+    <p><%= analysis.analysis_data.carbon_footprint_per_part_display %></p>
+    <p><%= analysis.analysis_data.process_energy_usage_per_part_display %></p>
+    <p><%= analysis.analysis_data.energy_cost_per_part_display %></p>
+    <p><%= analysis.analysis_data.annual_energy_usage_display %></p>
+    <p><%= analysis.analysis_data.annual_footprint_for_year_display %></p>
+    <p><%= analysis.analysis_data.annual_energy_cost_display %></p>
+    <p><%= analysis.analysis_data.annual_process_energy_usage_display %></p>
+    <p><%= analysis.analysis_data.annual_idle_energy_usage_display %></p>
+  </div>
+  <div id="comparision_original_data_<%= analysis.id  %>" style="display: none">
+    <span><%= analysis_data.utilization_display %></span>
+    <span><%= analysis.analysis_data.cycle_time_display %></span>
+    <span><%= analysis.analysis_data.carbon_footprint_per_part_display %></span>
+    <span><%= analysis.analysis_data.process_energy_usage_per_part_display %></span>
+    <span><%= analysis.analysis_data.energy_cost_per_part_display %></span>
+    <span><%= analysis.analysis_data.annual_energy_usage_display %></span>
+    <span><%= analysis.analysis_data.annual_footprint_for_year_display %></span>
+    <span><%= analysis.analysis_data.annual_energy_cost_display %></span>
+    <span><%= analysis.analysis_data.annual_process_energy_usage_display %></span>
+    <span><%= analysis.analysis_data.annual_idle_energy_usage_display %></span>
+  </div>
+</div>

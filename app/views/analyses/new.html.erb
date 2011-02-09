@@ -1,0 +1,21 @@
+<script type="text/javascript">
+  var country_energy_costs = <%=  @country_energy_costs_array.to_json %>;
+  window.onload = function() {
+    populateCountryWiseData($('analysis_data_location_id').value, country_energy_costs)
+  };  
+</script>
+<div class="container">
+  <div class="outer">
+    
+    <%= render :partial => '/layouts/header' %>
+
+    <%=
+      render :partial => 'analysis_form',
+             :locals => { :analysis => @analysis, :analysis_data => @analysis_data, :form_action => create_analysis_path,
+                          :cancel_action => list_analysis_path, :country_energy_costs => @country_energy_costs, :invalid_csv => @invalid_csv}
+    %>
+
+    <%= render :partial => '/layouts/footer' %>
+
+  </div><!--OUTER DIV ENDS-->
+</div><!--CONTAINER DIV ENDS-->

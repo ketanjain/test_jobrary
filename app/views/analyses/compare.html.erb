@@ -1,0 +1,40 @@
+<%= javascript_include_tag 'comparision'  %>
+<div class="container">
+
+  <%= render :partial => '/layouts/navigation_bar' %>
+  
+  <div class="outer">
+
+    <%= render :partial => '/layouts/header' %>
+
+    <%= render :partial => 'overview_button' %>
+
+    <div class="main group">
+      <div class="labels">
+        <ul class="basic title">
+          <li>Analysis Name</li>
+          <li>Part Name</li>
+          <li>Date</li>
+          <li class="label_des">Description</li>
+        </ul>
+
+        <p>Utilization</p>
+        <p>Cycle Time</p>
+        <p class="ext">Carbon Footprint<br/>Per Part</p>
+        <p class="ext">Energy Usage<br/>Per Part</p>
+        <p class="ext">Energy Cost<br/>Per Part</p>
+        <p class="ext">Annual <br/>Energy Usage</p>
+        <p class="ext">Annual <br/>Carbon Footprint</p>
+        <p class="ext">Annual <br/>Energy Cost</p>
+        <p>Process Energy</p>
+        <p>Idle Energy</p>
+      </div>
+
+      <%= render :partial => 'comparision_table', :locals => { :selected_analysis => @selected_analysis, :analyses => @analyses }  %>
+
+    </div>
+
+    <%= render :partial => '/layouts/footer' %>
+
+  </div><!--OUTER DIV ENDS-->
+</div><!--CONTAINER DIV ENDS-->

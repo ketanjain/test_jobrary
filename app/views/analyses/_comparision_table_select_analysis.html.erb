@@ -1,0 +1,28 @@
+<div id ="select_analysis_<%= index %>" class="atable">
+  <ul class="basic">
+    <li><h3></h3></li>
+    <li></li>
+    <li></li>
+    <li class="atable_des"></li>
+    <li class="action"><br/><br/><br/>
+    </li>
+  </ul>
+  <% if analyses.length > 0 %>
+    <% form_remote_tag :url => { :controller =>'/analyses',:action => "add_to_compare", :index => index }, :after =>'resetExistingBase()' do -%>
+      <%= collection_select(:analysis, :id, analyses, :id, :name, {:include_blank => true}, :onchange => "$('submit_'+#{index}).click()" ) %>
+      <%= submit_tag "", :id => "submit_#{index}", :style => 'display: none' %>
+    <% end -%>
+  <% end %>
+  <div >
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+  </div>
+</div>

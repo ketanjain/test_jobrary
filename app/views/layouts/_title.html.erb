@@ -1,0 +1,27 @@
+<title>Viper |
+  <%=
+  if controller.controller_name == "analyses"
+    case controller.action_name
+    when "overview"
+      "Overview"
+    when "show"
+      @analysis.name.capitalize if @analysis
+    when "new"
+      "New"
+    when "create"
+      "New"
+    when "edit"
+      "Edit"
+    when "update"
+      "Edit"
+    when "compare"
+      "Compare"
+    when "edit_analyses"
+      "Edit/Delete"
+    end
+  elsif controller.controller_name == "login"
+    "Login"
+  end
+
+%>
+</title>

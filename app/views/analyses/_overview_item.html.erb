@@ -1,0 +1,15 @@
+<% link_to(view_analysis_path(analysis)) do %>
+  <ul class="inner analysis">
+    <li class="date"><span class="title">Date</span><br/><%= analysis.date %></li>
+    <li class="aname"><span class="title">Analysis Name</span><br/><%= analysis.name.to_s.capitalize %></li>
+    <li class="pname"><span class="title">Part Name</span><br/><%= analysis.part_name.to_s.capitalize %></li>
+    <li class="usage"><span class="title">Energy Usage</span><br/><%= analysis.analysis_data.specific_energy_consumed_per_part_display %> <%= ENERGY_UNIT %></li>
+    <li class="desp"><span class="title">Description</span><br/><%= trimDescription(analysis.description.to_s.capitalize) %></li>
+    <% if edit %>
+      <li class="comp"><%= link_to 'Edit', edit_analysis_path(analysis) %></li>
+      <li class="comp"><%= link_to 'Delete', destroy_analysis_path(analysis) %></li>
+    <% else %>
+      <li id="compare_<%= analysis.id %>" class="comp"><%= link_to_function(image_tag("icon_compare.png"),"addIdForCompare(#{analysis.id})")%></li>
+    <% end %>
+  </ul>
+<% end %>
